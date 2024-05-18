@@ -1,0 +1,12 @@
+.districts-container {
+  margin-right: 150px;
+  margin-left: 150px;
+}
+
+.districts-heading {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  color: #ff073a;
+}
