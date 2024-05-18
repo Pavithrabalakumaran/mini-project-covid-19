@@ -7,7 +7,7 @@ class DistrictData extends Component {
   }
 
   getDistrictData = async () => {
-    const response = await fetch('https://apis.ccbp.in/covid19-state-wise-data'),
+    const response = await fetch('https://apis.ccbp.in/covid19-state-wise-data')
     const data = await response.json()
     console.log(data)
   }

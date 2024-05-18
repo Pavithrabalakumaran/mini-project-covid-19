@@ -1,33 +1,95 @@
 import {Component} from 'react'
-import {Link} from 'react-router-dom'
-
 import './index.css'
 
-class SearchInput extends Component {
-  getCamelCase = stateList => ({
-    stateCode: stateList.state_code,
-    stateName: stateList.state_name,
-  })
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import Footer from '../Footer'
+
+class About extends Component {
+  state = {isLoading: true, faqData: []}
+
+  componentDidMount() {
+    this.getLastUpdate()
+    this.getAbout()
+  }
+
+  getLastUpdate = async () => {
+    const url = 'https://apis.ccbp.in/covid19-state-wise-data'
+    const response = await fetch(url)
+    const fetchedData = await response.json()
+    const fetchedDate = fetchedData.TT
+    this.setState({fetchedDate})
+  }
+
+  getAbout = async () => {
+    const url = 'https://apis.ccbp.in/covid19-faqs'
+    const response = await fetch(url)
+    const fetchedData = await response.json()
+    const faqDetails = fetchedData.faq
+
+    this.setState({faqData: faqDetails, isLoading: false})
+  }
+
+  getDate = () => {
+    const {fetchedDate} = this.state
+
+    let updatedDate
+    if (fetchedDate !== undefined) {
+      const a = new Date(fetchedDate.meta.last_updated)
+      updatedDate = a.toString().slice(0, 15)
+    }
+
+    return updatedDate
+  }
+
+  renderLoader = () => (
+    <div className="loader-style">
+      <Loader type="Oval" color="#0b69ff" height="50" width="50" />
+    </div>
+  )
 
   render() {
-    const {statesList} = this.props
-    const {stateCode, stateName} = this.getCamelCase(statesList)
+    const {isLoading, faqData} = this.state
+
     return (
-      <Link className="states-link" to={`/state/${stateCode}`}>
-        <li className="states-container">
-          <p className="state-name-1">{stateName}</p>
-          <div className="state-code-container">
-            <p className="state-code">{stateCode}</p>
-            <img
-              src="https://res.cloudinary.com/dqu21kv9o/image/upload/v1629179297/Line_jz6euo.png"
-              alt="line"
-              className="line-img"
-            />
+      <>
+        {isLoading ? (
+          this.renderLoader()
+        ) : (
+          <div className="about-details-container">
+            <h1 className="about-heading">About</h1>
+            <p className="about-paragraph">{`Last update on ${this.getDate()}`}</p>
+            <p className="vaccine">COVID-19 vaccine ready for distribution</p>
+            <div>
+              <p className="question">{faqData[0].question}</p>
+              <p className="answer">{faqData[0].answer}</p>
+            </div>
+            <div>
+              <p className="question">{faqData[1].question}</p>
+              <p className="answer">{faqData[1].answer}</p>
+            </div>
+            <div>
+              <p className="question">{faqData[2].question}</p>
+              <p className="answer">{faqData[2].answer}</p>
+            </div>
+            <div>
+              <p className="question">{faqData[3].question}</p>
+              <p className="answer">{faqData[3].answer}</p>
+            </div>
+            <div>
+              <p className="question">{faqData[4].question}</p>
+              <p className="answer">{faqData[4].answer}</p>
+            </div>
+            <div>
+              <p className="question">{faqData[5].question}</p>
+              <p className="answer">{faqData[5].answer}</p>
+            </div>
+            <Footer />
           </div>
-        </li>
-      </Link>
+        )}
+      </>
     )
   }
 }
 
-export default SearchInput
+export default About
