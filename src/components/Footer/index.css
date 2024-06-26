@@ -1,40 +1,75 @@
-.Footer {
+.main-footer-container {
+  width: 100%;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Roboto';
+  background-color: #161625;
+  margin-top: auto;
 }
 
-.footer-logo {
+@media screen and (max-width: 576px) {
+  .main-footer-container {
+    height: 150px;
+  }
+}
+
+.website-name {
   font-family: 'Bree Serif';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  color: #f8fafc;
-}
-
-.logo {
-  color: blue;
-}
-
-.Footer-description {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
   font-size: 16px;
   line-height: 24px;
-  color: #94a3b8;
+  font-weight: bold;
+  color: #f8fafc;
+  margin-bottom: 15px;
 }
 
-.logo-container {
+@media screen and (max-width: 576px) {
+  .website-name {
+    font-size: 14px;
+  }
+}
+
+.blue-text {
+  color: #007bff;
+}
+
+.footer-note {
+  color: #94a3b8;
+  font-size: 12px;
+  margin-top: 0px;
+}
+
+@media screen and (max-width: 576px) {
+  .footer-note {
+    font-size: 10px;
+  }
+}
+
+.social-icon-container {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  width: 150px;
+  justify-content: space-between;
   align-items: center;
 }
 
-.icon-style {
-  height: 38px;
-  width: 38px;
-  margin: 30px;
+@media screen and (max-width: 576px) {
+  .social-icon-container {
+    width: 100px;
+  }
+}
+
+.footer-icon {
+  color: #e2e8f0;
+  font-size: 28px;
+}
+
+@media screen and (max-width: 576px) {
+  .footer-icon {
+    font-size: 20px;
+  }
 }

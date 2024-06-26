@@ -1,23 +1,28 @@
+import {Link} from 'react-router-dom'
+import Header from '../Header'
 import './index.css'
 
-const Notfound = () => (
-  <div className="notfound-container">
-    <img
-      src="https://res.cloudinary.com/dqu21kv9o/image/upload/v1629188949/Group_7484_wthzbs.png"
-      className="not-found-image"
-      alt="notfound"
-    />
-    <h1 className="notfound-heading">PAGE NOT FOUND</h1>
-    <p className="notfound-description">
-      we’re sorry, the page you requested could not be found <br /> Please go
-      back to the homepage
-    </p>
-    <a href="/">
-      <button type="button" className="button-style">
-        Home
-      </button>
-    </a>
-  </div>
+const NotFound = () => (
+  <>
+    <Header />
+    <div className="NotFound-container">
+      <img
+        src="https://res.cloudinary.com/dvosw6fkt/image/upload/v1662739043/Group_7484_eapvn5.jpg"
+        alt="not-found-pic"
+      />
+      <h1 className="NotFound-heading">PAGE NOT FOUND</h1>
+      <p className="NotFound-paragraph">
+        we are sorry, the page you requested could not be found
+      </p>
+      <div>
+        <Link to="/">
+          <button type="button" className="NotFound-button">
+            Home
+          </button>
+        </Link>
+      </div>
+    </div>
+  </>
 )
 
-export default Notfound
+export default NotFound

@@ -1,92 +1,102 @@
+/* eslint-disable react/no-unknown-property */
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
+import Header from '../Header'
+import Footer from '../Footer'
+import AboutCovidFaqList from '../AboutCovidFaqList'
+import AboutCovidFactList from '../AboutCovidFactList'
 import './index.css'
 
-import Loader from 'react-loader-spinner'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import Footer from '../Footer'
-
 class About extends Component {
-  state = {isLoading: true, faqData: []}
+  state = {
+    isLoading: true,
+    aboutList: {},
+    aboutFaq: {},
+  }
 
   componentDidMount() {
-    this.getLastUpdate()
-    this.getAbout()
+    this.aboutCovidList()
   }
 
-  getLastUpdate = async () => {
-    const url = 'https://apis.ccbp.in/covid19-state-wise-data'
-    const response = await fetch(url)
-    const fetchedData = await response.json()
-    const fetchedDate = fetchedData.TT
-    this.setState({fetchedDate})
-  }
-
-  getAbout = async () => {
-    const url = 'https://apis.ccbp.in/covid19-faqs'
-    const response = await fetch(url)
-    const fetchedData = await response.json()
-    const faqDetails = fetchedData.faq
-
-    this.setState({faqData: faqDetails, isLoading: false})
-  }
-
-  getDate = () => {
-    const {fetchedDate} = this.state
-
-    let updatedDate
-    if (fetchedDate !== undefined) {
-      const a = new Date(fetchedDate.meta.last_updated)
-      updatedDate = a.toString().slice(0, 15)
+  aboutCovidList = async () => {
+    const apiUrl = 'https://apis.ccbp.in/covid19-faqs'
+    const options = {
+      method: 'GET',
     }
+    const response = await fetch(apiUrl, options)
+    if (response.ok) {
+      const data = await response.json()
+      const aboutBannerData = data.factoids.map(eachItem => ({
+        banner: eachItem.banner,
+        id: eachItem.id,
+      }))
+      const aboutFaqData = data.faq.map(eachItem => ({
+        aboutAnswer: eachItem.answer,
+        aboutCategory: eachItem.category,
+        aboutQuestionNo: eachItem.qno,
+        aboutQuestion: eachItem.question,
+      }))
 
-    return updatedDate
+      this.setState({
+        aboutFaq: aboutFaqData,
+        aboutList: aboutBannerData,
+        isLoading: false,
+      })
+    } else {
+      console.log('data not available')
+    }
   }
 
-  renderLoader = () => (
-    <div className="loader-style">
-      <Loader type="Oval" color="#0b69ff" height="50" width="50" />
-    </div>
-  )
-
-  render() {
-    const {isLoading, faqData} = this.state
-
+  aboutCovidLists = () => {
+    const {aboutFaq, aboutList} = this.state
     return (
       <>
-        {isLoading ? (
-          this.renderLoader()
-        ) : (
-          <div className="about-details-container">
-            <h1 className="about-heading">About</h1>
-            <p className="about-paragraph">{`Last update on ${this.getDate()}`}</p>
-            <p className="vaccine">COVID-19 vaccine ready for distribution</p>
-            <div>
-              <p className="question">{faqData[0].question}</p>
-              <p className="answer">{faqData[0].answer}</p>
+        <ul className="About-about-facts" testid="faqsUnorderedList">
+          {aboutFaq.map(eachItem => (
+            <AboutCovidFaqList
+              answer={eachItem.aboutAnswer}
+              question={eachItem.aboutQuestion}
+              key={eachItem.aboutQuestionNo}
+            />
+          ))}
+        </ul>
+
+        <h1 className="About-heading-class">Factoids</h1>
+        <ul className="About-about-facts">
+          {aboutList.map(eachItem => (
+            <AboutCovidFactList banner={eachItem.banner} key={eachItem.id} />
+          ))}
+        </ul>
+      </>
+    )
+  }
+
+  render() {
+    const {isLoading} = this.state
+    return (
+      <>
+        <Header />
+        <div className="About-container">
+          {isLoading ? (
+            <div className="loading-class" testid="aboutRouteLoader">
+              <Loader type="Oval" color="#007BFF" height={50} width={50} />
             </div>
-            <div>
-              <p className="question">{faqData[1].question}</p>
-              <p className="answer">{faqData[1].answer}</p>
-            </div>
-            <div>
-              <p className="question">{faqData[2].question}</p>
-              <p className="answer">{faqData[2].answer}</p>
-            </div>
-            <div>
-              <p className="question">{faqData[3].question}</p>
-              <p className="answer">{faqData[3].answer}</p>
-            </div>
-            <div>
-              <p className="question">{faqData[4].question}</p>
-              <p className="answer">{faqData[4].answer}</p>
-            </div>
-            <div>
-              <p className="question">{faqData[5].question}</p>
-              <p className="answer">{faqData[5].answer}</p>
-            </div>
-            <Footer />
-          </div>
-        )}
+          ) : (
+            <>
+              <div className="About-container-column">
+                <h1 className="About-heading">About</h1>
+                <p className="About-paragraph">
+                  Last update on march 28th 2021.
+                </p>
+                <p className="About-heading-class">
+                  COVID-19 vaccines be ready for distribution
+                </p>
+              </div>
+              <div>{this.aboutCovidLists()}</div>
+            </>
+          )}
+        </div>
+        <Footer />
       </>
     )
   }

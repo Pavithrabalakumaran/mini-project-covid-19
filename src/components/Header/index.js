@@ -1,9 +1,8 @@
 import {Link, withRouter} from 'react-router-dom'
 import {Component} from 'react'
-
 import './index.css'
 
-class Navbar extends Component {
+class Header extends Component {
   state = {
     showMenu: false,
   }
@@ -20,76 +19,69 @@ class Navbar extends Component {
     const homeClassName = path === '/' ? 'link-name highlight' : 'link-name'
     const aboutClassName =
       path === '/about' ? 'link-name highlight' : 'link-name'
-
     return (
       <>
-        <nav className="navbar-container">
-          <div className="container">
-            <Link to="/" className="img-link">
-              <img
-                src="https://res.cloudinary.com/dbweo4cmc/image/upload/v1625723673/COVID19INDIA_tvtxet.png"
-                alt="logo"
-                className="covid-logo"
-              />
-            </Link>
-
-            <ul className="nav-items">
+        <nav className="header-list">
+          <Link to="/" className="link-logo">
+            <span className="app-name">COVID19</span>
+            <span className="app-name blue-text">INDIA</span>
+          </Link>
+          <ul className="nav-list">
+            <Link className="link-logo" to="/">
               <li key="1">
-                <Link to="/" className="nav-home">
-                  <button type="button" className={homeClassName}>
-                    Home
-                  </button>
-                </Link>
-              </li>
-
-              <li key="2">
-                <Link to="/about" className="nav-about">
-                  <button type="button" className={aboutClassName}>
-                    About
-                  </button>
-                </Link>
-              </li>
-            </ul>
-
-            <button
-              type="button"
-              className="menu-button"
-              onClick={this.toggleMenu}
-            >
-              <img
-                className="addQueue"
-                src="https://res.cloudinary.com/dbweo4cmc/image/upload/v1625949520/add-to-queue_1_n0hju7.png"
-                alt="addQueue"
-              />
-            </button>
-          </div>
-        </nav>
-
-        {showMenu ? (
-          <ul className="nav-items">
-            <li key="1">
-              <Link to="/" className="nav-home">
                 <button type="button" className={homeClassName}>
                   Home
                 </button>
-              </Link>
-            </li>
+              </li>
+            </Link>
 
-            <li key="2">
-              <Link to="/about" className="nav-about">
+            <Link className="link-logo" to="/about">
+              <li key="2">
                 <button type="button" className={aboutClassName}>
                   About
                 </button>
-              </Link>
-            </li>
-
+              </li>
+            </Link>
+          </ul>
+          <button
+            type="button"
+            className="menu-button"
+            onClick={this.toggleMenu}
+          >
+            <img
+              src="https://res.cloudinary.com/dvosw6fkt/image/upload/v1662780401/hamberger_pz0cua.svg"
+              alt="menu item"
+              className="menu-image"
+            />
+          </button>
+        </nav>
+        {showMenu ? (
+          <ul className="menu-list">
+            <Link className="link-item" to="/">
+              <li key="1">
+                <button type="button" className={homeClassName}>
+                  Home
+                </button>
+              </li>
+            </Link>
+            <Link className="link-item" to="/about">
+              <li key="2">
+                <button type="button" className={aboutClassName}>
+                  About
+                </button>
+              </li>
+            </Link>
             <li className="close-item" key="2">
               <button
                 type="button"
                 className="close-button"
                 onClick={this.closeMenu}
               >
-                close
+                <img
+                  src="https://res.cloudinary.com/dvosw6fkt/image/upload/v1662780761/close_yojsls.svg"
+                  alt="close icon"
+                  className="close-icon"
+                />
               </button>
             </li>
           </ul>
@@ -99,4 +91,4 @@ class Navbar extends Component {
   }
 }
 
-export default withRouter(Navbar)
+export default withRouter(Header)
